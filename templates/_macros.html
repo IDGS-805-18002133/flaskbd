@@ -1,0 +1,37 @@
+{%macro datos(name,placeholder,type="text") %}
+<p>
+    <input type="{{type}}" name="{{name}}" placeholder="{{placeholder}}">
+</p>
+{%endmacro%}
+{%macro datos2(name,placeholder,type="text") %}
+<textarea name="{{name}}" placeholder="{{placeholder}}">
+</textarea>
+{%endmacro%}
+
+{%macro camposNuevos(field)%}
+<td>{{field.label}}</td>
+<dd>{{field(**kwargs)|safe}}</dd>
+{%if field.errors%}
+<ul>
+    {%for error in field.errors%}
+    <li style="color:red;">{{error}}</li>
+    {%endfor%}
+</ul>
+{%endif%}
+{%endmacro%}
+
+{% macro campoNuevoNumero(field, type="text", min="", max="") %}
+<td>{{ field.label }}</td>
+<dd>
+    {{ field(type=type, class="input-mini", min=min, max=max, 
+             oninput="this.value = this.value.replace(/[^0-9]/g, '')",
+             onkeypress="return event.charCode >= 48 && event.charCode <= 57") | safe }}
+</dd>
+{% if field.errors %}
+<ul>
+    {% for error in field.errors %}
+    <li style="color:red;">{{ error }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endmacro %}
